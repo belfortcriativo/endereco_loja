@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
-    <title>Encontrar Loja | Belfort Criativo</title>
+    <title>Menu de Seleção</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -110,9 +110,9 @@
         <!-- Primeiro menu: Estados -->
         <select id="estado" onchange="atualizarCidades()">
             <option value="">Selecione o Estado</option>
-            <option value="RO">Rondônia</option>
-            <option value="AC">Pará</option>
             <option value="AM">Amazonas</option>
+            <option value="PA">Pará</option>
+            <option value="RO">Rondônia</option>
         </select>
 
         <!-- Segundo menu: Cidades -->
@@ -271,25 +271,56 @@
             { endereco: "NBO - AV. JUSCELINO KUBITSCHECK, 3302 - CENTRO", loja: "ULTRAPOPULAR", estado: "RO" }            
             ],
             
+
             "Bengui": [
                 { endereco: "Rua E, 202", loja: "Loja Maxi", estado: "AC" }
             ],
             "Marituba": [
                 { endereco: "Rua F, 303", loja: "Loja Maxi", estado: "AC" }
             ],
-            "Manaus": [
-                { endereco: "Av. G, 404", loja: "Loja Mega", estado: "AM" },
-                { endereco: "Av. H, 505", loja: "Loja Mega", estado: "AM" }
+            
+            "Autaz Mirim": [
+            { endereco: "AUTAZ MIRIM - AVENIDA AUTAZ MIRIM, 6121", loja: "MEGAPOPULAR", estado: "AM" },
+            ],
+            "Theomario": [
+            { endereco: "THEOMARIO - AV DR THEOMARIO PINTO DA COSTA, LOTE 63 A SNLOT SIR, 1905", loja: "MEGAPOPULAR", estado: "AM" },
+            ],
+            "Jorge Teixeira": [
+            { endereco: "JG TEIXEIRA - AVENIDA BRIGADEIRO HILARIO GURJAO, 3077", loja: "MEGAPOPULAR", estado: "AM" },
+            ],
+            "Manoa": [
+            { endereco: "MANOA - AVENIDA FRANCISCO QUEIROZ, CONJUNTO MONTE SINAI, 710", loja: "MEGAPOPULAR", estado: "AM" },
+            ],
+            "Manoa 2": [
+            { endereco: "MANOA 2 -", loja: "MEGAPOPULAR", estado: "AM" },
+            ],
+            "Cachoeirinha": [
+            { endereco: "CACHOEIRINHA - AVENIDA CARVALHO LEAL, 1239", loja: "MEGAPOPULAR", estado: "AM" },
+            ],
+            "Alvaro Maia": [
+            { endereco: "ALVARO MAIA - AVENIDA ALVARO MAIA, PROXIMO AO HOSPITAL SANTA JÚLIA, 416", loja: "MEGAPOPULAR", estado: "AM" },
+            ],
+            "Zumbi": [
+            { endereco: "ZUMBI - AVENIDA COSME FERREIRA, 5650", loja: "MEGAPOPULAR", estado: "AM" },
+            ],
+            "Parque 10": [
+            { endereco: "PARQUE 10 - AVENIDA TANCREDO NEVES, 894", loja: "MEGAPOPULAR", estado: "AM" },
+            ],
+            "Compensa": [
+            { endereco: "COMPENSA -", loja: "MEGAPOPULAR", estado: "AM" },
+            ],
+            "Iranduba": [
+            { endereco: "IRANDUBA -", loja: "MEGAPOPULAR", estado: "AM" },
             ],
             "Manacapuru": [
-                { endereco: "Rua I, 606", loja: "Loja Ultra", estado: "AM" }
-            ]
+            { endereco: "MANACAPURU -", loja: "ULTRAPOPULAR", estado: "AM" },
+            ],
         };
 
         const cidadesPorEstado = {
             RO: ["Ariquemes", "Buritis", "Cacoal", "Espigão d'Oeste", "Guajará-Mirim", "Ji-Paraná", "Jaru", "Machadinho d'Oeste", "Nova Brasilândia d'Oeste", "Nova Mamoré", "Ouro Preto d'Oeste", "Porto Velho", "Presidente Médici", "Pimenta Bueno", "Rolim de Moura", "São Miguel do Guaporé", "Vilhena"],
             PA: ["Bengui", "Marituba"],
-            AM: ["Manaus", "Manacapuru"]
+            AM: ["Autaz Mirim", "Theomario", "Jorge Teixeira", "Manoa", "Manoa 2", "Cachoeirinha", "Alvaro Maia", "Zumbi", "Parque 10", "Compensa", "Iranduba", "Manacapuru"]
         };
 
         // Atualizar cidades com base no estado selecionado
