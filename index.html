@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Menu de Seleção</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+    <title>Encontrar Loja | Belfort Criativo</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -77,7 +78,7 @@
             }
         }
 
-        .clear-button {
+        .clear-button, .export-button {
             padding: 10px;
             background-color: #dc3545;
             color: white;
@@ -86,8 +87,12 @@
             cursor: pointer;
         }
 
-        .clear-button:hover {
+        .clear-button:hover, .export-button:hover {
             background-color: #c82333;
+        }
+
+        .export-container {
+            margin: 20px 0;
         }
     </style>
 </head>
@@ -125,6 +130,17 @@
 
         <!-- Botão Limpar Filtro -->
         <button class="clear-button" onclick="limparFiltros()">Limpar Filtro</button>
+    </div>
+
+    <!-- Opções de Exportação -->
+    <div class="export-container">
+        <label>
+            <input type="checkbox" id="exportarTodos"> Exportar Todos
+        </label>
+        <label>
+            <input type="checkbox" id="exportarSelecionados"> Exportar Selecionados
+        </label>
+        <button class="export-button" onclick="exportar()">Exportar</button>
     </div>
 
     <!-- Tabela de Endereços -->
@@ -355,7 +371,7 @@
                     const estadoTexto = loja.estado.toLowerCase();
 
                     // Exibir resultados que contenham o texto digitado
-                    if (cidadeTexto.includes(input) || enderecoTexto.includes(input) || lojaTexto.includes(input) || estadoTexto.includes(input)) {
+                    if (cidadeTexto.includes(input) || enderecoTexto.includes(input) || lojaTexto.includes(input)) {
                         const tr = document.createElement("tr");
                         const tdCidade = document.createElement("td");
                         const tdEndereco = document.createElement("td");
@@ -373,19 +389,68 @@
                 });
             }
 
-            document.getElementById("tabela-lojas").classList.remove("hidden");
+            // Exibir a tabela se houver resultados
+            if (tabelaCorpo.childElementCount > 0) {
+                document.getElementById("tabela-lojas").classList.remove("hidden");
+            } else {
+                document.getElementById("tabela-lojas").classList.add("hidden");
+            }
         }
 
-        // Função de limpar todos os filtros
+        // Limpar os filtros e restaurar a tabela
         function limparFiltros() {
             document.getElementById("estado").value = "";
+            document.getElementById("cidade").value = "";
+            document.getElementById("loja").value = "todas";
+            document.getElementById("pesquisa").value = "";
+            document.getElementById("tabela-corpo").innerHTML = "";
+            document.getElementById("tabela-lojas").classList.add("hidden");
             document.getElementById("cidade").classList.add("hidden");
             document.getElementById("loja").classList.add("hidden");
-            document.getElementById("pesquisa").value = "";
-            document.getElementById("tabela-lojas").classList.add("hidden");
-            document.getElementById("tabela-corpo").innerHTML = "";
+        }
+
+        // Exportar dados selecionados ou todos
+        function exportar() {
+            const exportarTodos = document.getElementById("exportarTodos").checked;
+            const exportarSelecionados = document.getElementById("exportarSelecionados").checked;
+
+            let dadosParaExportar = [];
+
+            if (exportarTodos) {
+                // Adiciona todos os dados disponíveis para exportação
+                for (const cidade in lojasPorCidade) {
+                    const lojas = lojasPorCidade[cidade];
+                    lojas.forEach(loja => {
+                        dadosParaExportar.push({ Cidade: cidade, Endereço: loja.endereco, Loja: loja.loja });
+                    });
+                }
+            }
+
+            if (exportarSelecionados) {
+                // Adiciona apenas os dados atualmente exibidos na tabela
+                const tabelaCorpo = document.getElementById("tabela-corpo");
+                const linhas = tabelaCorpo.getElementsByTagName("tr");
+                for (const linha of linhas) {
+                    const celulas = linha.getElementsByTagName("td");
+                    const cidade = celulas[0].textContent;
+                    const endereco = celulas[1].textContent;
+                    const loja = celulas[2].textContent;
+                    dadosParaExportar.push({ Cidade: cidade, Endereço: endereco, Loja: loja });
+                }
+            }
+
+            if (dadosParaExportar.length > 0) {
+                // Criar uma nova planilha
+                const ws = XLSX.utils.json_to_sheet(dadosParaExportar);
+                const wb = XLSX.utils.book_new();
+                XLSX.utils.book_append_sheet(wb, ws, "Endereços");
+
+                // Gerar e baixar o arquivo XLSX
+                XLSX.writeFile(wb, "enderecos_exportados.xlsx");
+            } else {
+                alert("Nenhum dado para exportar!");
+            }
         }
     </script>
-
 </body>
 </html>
